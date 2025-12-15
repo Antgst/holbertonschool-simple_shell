@@ -8,7 +8,8 @@
  * Return: 0 on success or on EOF, and -1 on failure
  */
 
-int read_line(void)
+int read_line(void);
+int main(void)
 {
 	char *line = NULL;
 	size_t len = 0;
@@ -36,4 +37,15 @@ int read_line(void)
 
 	free(line);
 	return (0);
+}
+
+/**
+ * main - Entry point
+ *
+ * Return: 0 on success, -1 on failure
+ */
+
+int main(void)
+{
+	return (read_line());
 }
