@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h> //ou <sys/types.h>
+#include <unistd.h>
 
 /**
  * read_line - Prints "$ ", reads a line from stdin and prints it back
