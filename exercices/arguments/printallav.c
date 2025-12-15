@@ -1,17 +1,17 @@
 #include <stdio.h>
-#include <unistd.h>
 
 /**
- * main - check the code
+ * main - Prints all command line arguments
  * @ac: the number of arguments
  * @av: the array where arguments are stored
- * 
+ *
  * Return: 0
  */
 
 int main(int ac, char **av)
 {
-	unsigned int i;
+	int i;
+	(void)ac;
 
 	for (i = 0; av[i] != NULL; i++)
 	{
