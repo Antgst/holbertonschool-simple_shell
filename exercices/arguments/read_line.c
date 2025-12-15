@@ -8,8 +8,7 @@
  * Return: 0 on success or on EOF, and -1 on failure
  */
 
-int read_line(void);
-int main(void)
+int read_line(void)
 {
 	char *line = NULL;
 	size_t len = 0;
