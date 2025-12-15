@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 
 /**
  * main - check the code
@@ -9,7 +8,7 @@
  * 
  */
 
-int main (void)
+int read_line (void)
 {
     char *line = NULL;
     size_t buffer = 0;
