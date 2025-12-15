@@ -11,6 +11,6 @@ int main(void)
     pid_t my_pid;
 
     my_pid = getppid();
-    printf("%u\n", my_pid);
+    printf("%u\n", my_ppid);
     return (0);
 }
