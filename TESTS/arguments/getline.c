@@ -19,7 +19,7 @@ int main (void)
         printf("$ ");
         getline(&line, &buffer, stdin);
         
-        printf("line: %s buffer : %li\n", line, buffer);
+        printf("line: %sbuffer : %li\n", line, buffer);
     }
     free(line);
     return (0);
