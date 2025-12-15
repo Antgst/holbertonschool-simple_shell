@@ -1,16 +1,19 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/types.h>
 
 /**
- * main - PID
+ * main - Prints the PPID of the current process
  *
- * Return: Always 0.
+ * Return: Always 0 if success
  */
+
 int main(void)
 {
-    pid_t my_ppid;
+    pid_t ppid;
 
-    my_ppid = getppid();
-    printf("%u\n", my_ppid);
+    ppid = getppid();
+    printf("%u\n", ppid);
+    
     return (0);
 }

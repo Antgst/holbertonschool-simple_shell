@@ -10,10 +10,10 @@
 
 int main(void)
 {
-    pid_t my_pid;
+    pid_t pid;
 
-    my_pid = getpid();
-    printf("%d\n", (int)my_pid);
+    pid = getpid();
+    printf("%d\n", (int)pid);
 
     return (0);
 }
