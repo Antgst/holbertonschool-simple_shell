@@ -1,25 +1,39 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h> //ou <sys/types.h>
 
 /**
- * main - check the code
+ * read_line - Prints "$ ", reads a line from stdin and prints it back
  * 
- * 
- * 
+ * Return: 0 on success or on EOF, and -1 on failure
  */
 
-int read_line (void)
+int read_line(void)
 {
-    char *line = NULL;
-    size_t buffer = 0;
+	char *line = NULL;
+	size_t len = 0;
+	ssize_t number_read;
 
-    while(1)
-    {
-        printf("$ ");
-        getline(&line, &buffer, stdin);
-        
-        printf("line: %sbuffer : %li\n", line, buffer);
-    }
-    free(line);
-    return (0);
+	while (1)
+	{
+		printf("$ ");
+		fflush(stdout);
+
+		number_read = getline(&line, &len, stdin);
+		if (number_read == -1)
+		{
+			if (feof(stdin))
+			{
+				printf("\n");
+				break;
+			}
+			free(line);
+			return (-1);
+		}
+		
+		printf("%s", line);
+	}
+
+	free(line);
+	return (0);
 }
