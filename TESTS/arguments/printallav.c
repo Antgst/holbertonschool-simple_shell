@@ -2,7 +2,7 @@
 #include <unistd.h>
 
 /**
- * main: check the code
+ * main - check the code
  * @ac: the number of arguments
  * @av: the array where arguments are stored
  * 
