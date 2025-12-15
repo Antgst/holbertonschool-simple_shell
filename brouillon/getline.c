@@ -13,14 +13,16 @@ int main(void)
 {
 	char *line = NULL;
 	unsigned long int buffer = 0;
+	ssize_t size;
 
 	while (line != "exit\n")
 	{
 		printf("$ ");
-		getline(&line, &buffer, stdin);
-		if (line == "exit")
+		size = getline(&line, &buffer, stdin);
+
+		if (_strcmp(line, "exit\n") == 0 || size == -1)
 		{
-			printf("exited");
+			putchar('\n');
 			free(line);
 			return (0);
 		}
