@@ -17,18 +17,12 @@ int main(void)
 	size_t len = 0;
 	ssize_t read;
 
-	while (1)
-	{
 		printf("supersimpleshell$ ");
 		read = getline(&line, &len, stdin);
 		
 		if (read == -1)
 		{
-			printf("\n");
-			break;
+			free(line);
+			return (0);
 		}
-		
-		free(line);
-		return (-1);
-	}
 }
