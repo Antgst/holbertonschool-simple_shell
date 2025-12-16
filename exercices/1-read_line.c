@@ -14,26 +14,16 @@ int read_line(void)
 	size_t len = 0;
 	ssize_t number_read;
 
-	while (1)
+	printf("$ ");
+	number_read = getline(&line, &len, stdin);
+	
+	if (number_read == -1)
 	{
-		printf("$ ");
-		fflush(stdout);
-
-		number_read = getline(&line, &len, stdin);
-		if (number_read == -1)
-		{
-			if (feof(stdin))
-			{
-				printf("\n");
-				break;
-			}
-			free(line);
-			return (-1);
-		}
-		
-		printf("%s", line);
+		free(line);
+		return (0);
 	}
-
+	
+	printf("%s", line);
 	free(line);
 	return (0);
 }
