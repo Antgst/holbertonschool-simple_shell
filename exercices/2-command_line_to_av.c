@@ -2,9 +2,10 @@
 #include <stdio.h>
 
 /**
- * 
- * 
- * 
+ * main - Splits a string into words 
+ * using strtok and prints each token
+ *
+ * Return: Always 0 on success
  */
 
 int main(void)
