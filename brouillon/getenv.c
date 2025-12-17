@@ -1,8 +1,14 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <string.h>
+
 char *match_var(const char *s1, char *s2);
 char *_getenv(const char *name);
+void printpath(void);
+char *_strcpy(char *dest, char *src);
+int _strlen(char *s);
+
 extern char **environ;
 
 int main(void)
@@ -19,9 +25,28 @@ int main(void)
 
 	printf("%s\n", path);
 
+	printpath();
+
 	return (0);
 }
 
+void printpath(void)
+{
+	char *truepath, *path = NULL;
+	char *splitpath = NULL;
+
+	truepath = _getenv("PATH");
+	path = malloc(_strlen(truepath + 1));
+	path = _strcpy(path, truepath);
+
+	splitpath = strtok(path, ":");
+
+	while (splitpath != NULL)
+	{
+		printf("%s\n", splitpath);
+		splitpath = strtok(NULL, ":");
+	}
+}
 
 char *_getenv(const char *name)
 {
@@ -64,4 +89,32 @@ char *match_var(const char *s1, char *s2)
 	}
 
 	return (NULL);
+}
+
+
+char *_strcpy(char *dest, char *src)
+{
+	int i = 0;
+
+	while (src[i] != '\0')
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
+int _strlen(char *s)
+{
+	char *p = s;
+	int x;
+
+	x = 0;
+	while (*p != '\0')
+	{
+		x++;
+		p++;
+	}
+	return (x);
 }
