@@ -10,7 +10,7 @@
  */
 int main(void)
 {
-	char *argv[] = {"/bin/ls", "-l", "/usr/", NULL};
+	char *argv[] = {"/bin/ls", "-l", "/tmp/", NULL};
 	unsigned int i;
 
 
