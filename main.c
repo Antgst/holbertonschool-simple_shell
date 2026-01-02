@@ -35,7 +35,7 @@ int main(int argc, char **argv)
         if (is_blank_line(line) == 1)
             continue;
 
-        execute_simple(line, argv[0], line_no);
+        execute_args(line, argv[0], line_no);
     }
     free(line);
     return (0);
