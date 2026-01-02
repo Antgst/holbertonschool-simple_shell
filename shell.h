@@ -22,5 +22,7 @@ void print_not_found(const char *prog, unsigned long line_no, const char *cmd);
 char **tokenize_line(char *line);
 void free_argv(char **argv);
 int execute_args(char *line, const char *prog, unsigned long line_no);
+char *resolve_path(const char *cmd);
+char *get_en_value(const char *name);
 
 #endif /*SHELL_H*/
