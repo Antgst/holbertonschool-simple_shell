@@ -11,11 +11,10 @@
 
 int execute_args(char *line, const char *prog, unsigned long line_no)
 {
+    (void)line_no;
     char **argv;
     pid_t pid;
     int status;
-
-    (void)line_no;
 
     argv = tokenize_line(line);
 
