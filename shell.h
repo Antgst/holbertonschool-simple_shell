@@ -18,5 +18,6 @@ int exec(char **argv);
 char **tokenize_line(char *line);
 char *pathmaker(char **av);
 int print_env(void);
+char *_getenv(const char *name);
 
 #endif

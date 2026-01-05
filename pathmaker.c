@@ -12,7 +12,7 @@ char *make_path(char *path, char *file);
 char *pathmaker(char **av)
 {
 	struct stat st;
-	char *path = getenv("PATH");
+	char *path = _getenv("PATH");
 	char *spath, *path_copy;
 	char *fullpath;
 
