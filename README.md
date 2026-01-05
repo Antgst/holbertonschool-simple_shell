@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🐚 C - Simple Shell — Holberton School Rennes
 
 ## 📝 Description
@@ -150,3 +151,8 @@ valgrind --leak-check=full --show-leak-kinds=all ./hsh
 ## 📌 Notes
 - The checker is released near the end of the project: build a solid test suite early.
 - After the deadline, you may need to fork the repository to your GitHub account for checker correction.
+=======
+# holbertonschool-simple_shell
+
+TO BE COMPLETED
+>>>>>>> main
