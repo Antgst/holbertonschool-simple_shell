@@ -23,7 +23,8 @@ int main(int ac, char **av)
 		size = getline(&line, &buffer, stdin);
 		if (size == -1)
 		{
-			printf("\n");
+			if (isatty(STDIN_FILENO))
+				printf("\n");
 			free(line);
 			return (0);
 		}
