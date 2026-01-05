@@ -1,12 +1,14 @@
 #include "shell.h"
 
 /**
- * exec - execute a command using execve
- * @argv: array of arguments, with argv[0] as the command
+ * exec - Executes a command in a child process.
+ * @argv: Argument vector for the command.
+ * @sname: Name of the program.
+ * @line: Line number of the command.
  *
- * Return: 0 on success, 1 on failure
+ * Return: 0 on success, 1 on failure.
  */
-int exec(char **argv, const char *shell_name, ssize_t line)
+int exec(char **argv, const char *sname, ssize_t line)
 {
 	char *fullpath = NULL;
 	pid_t child_pid;
@@ -25,7 +27,7 @@ int exec(char **argv, const char *shell_name, ssize_t line)
 	{
 		if (execve(fullpath, argv, environ) == -1)
 		{
-			dprintf(STDERR_FILENO, "%s: %lu: %s: not found\n", shell_name, line, argv[0]);
+			dprintf(STDERR_FILENO, "%s: %lu: %s: not found\n", sname, line, argv[0]);
 			exit(127);
 		}
 	}
