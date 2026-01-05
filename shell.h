@@ -14,10 +14,13 @@ extern char **environ;
 int _strcmp(char *s1, char *s2);
 char *_strcpy(char *dest, char *src);
 int _strlen(char *s);
+char *_strdup(char *str);
+
 int exec(char **argv, const char *shell_name, ssize_t line);
 char **tokenize_line(char *line);
 char *pathmaker(char **av);
-int print_env(void);
+
 char *_getenv(const char *name);
+int print_env(void);
 
 #endif
