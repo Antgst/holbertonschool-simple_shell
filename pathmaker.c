@@ -80,4 +80,3 @@ char *make_path(char *path, char *file)
 	fullpath[y] = '\0';
 	return (fullpath);
 }
-

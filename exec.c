@@ -1,20 +1,28 @@
 #include "shell.h"
 
 /**
- * exec - execute a command using execve
- * @argv: array of arguments, with argv[0] as the command
+ * exec - Executes a command in a child process.
+ * @argv: Argument vector for the command.
+ * @sname: Name of the program.
+ * @line: Line number of the command.
  *
- * Return: 0 on success, 1 on failure
+ * Return: 0 on success, 1 on failure.
  */
-int exec(char **argv)
+int exec(char **argv, const char *sname, ssize_t line)
 {
-	unsigned int i;
-
+	char *fullpath = NULL;
 	pid_t child_pid;
 	int status;
 
-	child_pid = fork();
+	fullpath = pathmaker(argv);
+	if (!fullpath)
+	{
+		dprintf(STDERR_FILENO, "%s: %lu: %s: not found\n",
+				sname, (unsigned long)line, argv[0]);
+		return (127);
 
+	}
+	child_pid = fork();
 	if (child_pid == -1)
 	{
 		perror("Error:");
@@ -23,16 +31,16 @@ int exec(char **argv)
 
 	if (child_pid == 0)
 	{
-		if (execve(argv[0], argv, environ) == -1)
-		{
-			perror("Error:");
-		}
+		execve(fullpath, argv, environ);
+
+		dprintf(STDERR_FILENO, "%s: %ld: %s: not found\n", sname, line, argv[0]);
+		free(fullpath);
+		exit(127);
 	}
-	else
-	{
-		wait(&status);
-	}
+
+	waitpid(child_pid, &status, 0);
+
+	free(fullpath);
 
 	return (0);
 }
-

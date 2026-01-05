@@ -9,46 +9,35 @@
 
 char **tokenize_line(char *line)
 {
-    char *token;
-    size_t argcount = 0;
-    char **argv;
-    char copy[1024];
-    size_t idx = 0;
+	char *token;
+	size_t argcount = 0;
+	char **argv;
+	char copy[1024];
+	size_t idx = 0;
 
-    if (line == NULL)
-        return (NULL);
+	if (line == NULL)
+		return (NULL);
+	_strcpy(copy, line);
 
-    _strcpy(copy, line);
+	token = strtok(copy, " \t");
 
-    if (copy == NULL)
-        return (NULL);
-
-    token = strtok(copy, " \t");
-
-    while (token != NULL)
-    {
-        argcount++;
-        token = strtok(NULL, " \t");
-    }
-
-    if (argcount == 0)
-        return (NULL);
-
-    argv = malloc(sizeof(char *) * (argcount + 1));
-
-    if (argv == NULL)
-        return (NULL);
-
-    token = strtok(line, " \t");
-
-    while (token != NULL)
-    {
-        argv[idx] = token;
-        idx++;
-        token = strtok(NULL, " \t");
-    }
-
-    argv[idx] = NULL;
-
-    return (argv);
+	while (token != NULL)
+	{
+		argcount++;
+		token = strtok(NULL, " \t");
+	}
+	if (argcount == 0)
+		return (NULL);
+	argv = malloc(sizeof(char *) * (argcount + 1));
+	if (argv == NULL)
+		return (NULL);
+	token = strtok(line, " \t");
+	while (token != NULL)
+	{
+		argv[idx] = token;
+		idx++;
+		token = strtok(NULL, " \t");
+	}
+	argv[idx] = NULL;
+	return (argv);
 }
