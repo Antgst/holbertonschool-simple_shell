@@ -35,7 +35,7 @@ int main(int ac, char **av)
 		if (_strcmp(line, "exit") == 0)
 		{
 			free(line);
-			return (2);
+			return (0);
 		}
 		if (_strcmp(line, "env") == 0)
 		{
