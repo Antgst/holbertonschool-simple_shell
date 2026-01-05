@@ -15,8 +15,14 @@ int exec(char **argv, const char *sname, ssize_t line)
 	int status;
 
 	fullpath = pathmaker(argv);
-	child_pid = fork();
+	if (!fullpath)
+	{
+		dprintf(STDERR_FILENO, "%s: %lu: %s: not found\n",
+				sname, (unsigned long)line, argv[0]);
+		return (127);
 
+	}
+	child_pid = fork();
 	if (child_pid == -1)
 	{
 		perror("Error:");
@@ -25,16 +31,16 @@ int exec(char **argv, const char *sname, ssize_t line)
 
 	if (child_pid == 0)
 	{
-		if (execve(fullpath, argv, environ) == -1)
-		{
-			dprintf(STDERR_FILENO, "%s: %lu: %s: not found\n", sname, line, argv[0]);
-			exit(127);
-		}
+		execve(fullpath, argv, environ);
+
+		dprintf(STDERR_FILENO, "%s: %ld: %s: not found\n", sname, line, argv[0]);
+		free(fullpath);
+		exit(127);
 	}
-	else
-	{
-		wait(&status);
-	}
+
+	waitpid(child_pid, &status, 0);
+
+	free(fullpath);
 
 	return (0);
 }

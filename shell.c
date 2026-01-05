@@ -24,22 +24,28 @@ int main(int ac, char **av)
 
 		size = getline(&line, &buffer, stdin);
 		line_no++;
+		if (size == -1)
+		{
+			printf("\n");
+			free(line);
+			return (0);
+		}
 
 		if (line[size - 1] == '\n')
 			line[size - 1] = '\0';
 
-		if (_strcmp(line, "exit") == 0 || size == -1)
+		if (_strcmp(line, "exit") == 0)
 		{
+			free(line);
 			return (2);
 		}
-
 		if (_strcmp(line, "env") == 0)
 		{
 			print_env();
 			continue;
 		}
-
 		argv = tokenize_line(line);
-		exec(argv, av[0], line_no);
+		if (argv != NULL)
+			exec(argv, av[0], line_no);
 	}
 }

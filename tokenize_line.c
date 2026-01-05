@@ -19,8 +19,6 @@ char **tokenize_line(char *line)
 		return (NULL);
 	_strcpy(copy, line);
 
-	if (copy == NULL)
-		return (NULL);
 	token = strtok(copy, " \t");
 
 	while (token != NULL)
