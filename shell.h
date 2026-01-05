@@ -8,13 +8,15 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
+#include <errno.h>
 
 extern char **environ;
 
 int _strcmp(char *s1, char *s2);
 char *_strcpy(char *dest, char *src);
 int _strlen(char *s);
-int exec(char **argv, const char *shell_name, ssize_t line);
+
+int exec(char **argv, const char *shell_name, unsigned long line);
 char **tokenize_line(char *line);
 char *pathmaker(char **av);
 int print_env(void);
