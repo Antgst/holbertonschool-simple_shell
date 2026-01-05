@@ -1,11 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-
-int _strcmp(char *s1, char *s2);
-
+#include "shell.h"
 
 /**
  * main - PID
@@ -59,24 +52,4 @@ int main(void)
 	}
 	free(line);
 	return (0);
-}
-
-/**
- * _strcmp - compare the ascii value of two strings
- * @s1: string 1 to compare
- * @s2: string 2 to compare
- * Return: int
- */
-int _strcmp(char *s1, char *s2)
-{
-	int i = 0;
-
-	while (s1[i] == s2[i])
-	{
-		if (s1[i] == '\0')
-			break;
-		i++;
-	}
-
-	return (s1[i] - s2[i]);
 }
