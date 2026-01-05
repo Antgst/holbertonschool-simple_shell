@@ -1,7 +1,4 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
+#include "shell.h"
 
 /**
  * exec - execute a command using execve
@@ -26,7 +23,7 @@ int exec(char **argv)
 
 	if (child_pid == 0)
 	{
-		if (execve(argv[0], argv, NULL) == -1)
+		if (execve(argv[0], argv, environ) == -1)
 		{
 			perror("Error:");
 		}

@@ -15,7 +15,7 @@ int main(void)
 	int status;
 	char **argv;
 
-	while (line != "exit\n")
+	while (1)
 	{
 		printf("$ ");
 		size = getline(&line, &buffer, stdin);
@@ -23,14 +23,20 @@ int main(void)
 		if (line[size - 1] == '\n')
 			line[size - 1] = '\0';
 
-		if (_strcmp(line, "exit\n") == 0 || size == -1)
+		if (_strcmp(line, "exit") == 0 || size == -1)
 		{
-			putchar('\n');
 			free(line);
 			return (0);
 		}
 
+		if (_strcmp(line, "env") == 0 || size == -1)
+		{
+			print_env();
+			continue;
+		}
+
 		argv = tokenize_line(line);
+		argv[0] = pathmaker(argv);
 		exec(argv);
 	}
 	free(line);
