@@ -10,14 +10,13 @@ int main(void)
 	char *line = NULL;
 	unsigned long int buffer = 0;
 	ssize_t size;
-	unsigned int i;
-	pid_t child_pid;
-	int status;
 	char **argv;
 
 	while (1)
 	{
-		printf("$ ");
+		if (isatty(STDIN_FILENO))
+			printf("$ ");
+
 		size = getline(&line, &buffer, stdin);
 
 		if (line[size - 1] == '\n')

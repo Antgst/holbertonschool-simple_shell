@@ -8,8 +8,6 @@
  */
 int exec(char **argv)
 {
-	unsigned int i;
-
 	pid_t child_pid;
 	int status;
 
