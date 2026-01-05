@@ -2,15 +2,20 @@
 
 /**
  * main - PID
+ * @ac: Argument count.
+ * @av: Argument vector.
  *
  * Return: Always 0.
  */
-int main(void)
+int main(int ac, char **av)
 {
 	char *line = NULL;
 	unsigned long int buffer = 0;
 	ssize_t size;
 	char **argv;
+	ssize_t line_no = 0;
+
+	(void)ac;
 
 	while (1)
 	{
@@ -18,26 +23,23 @@ int main(void)
 			printf("$ ");
 
 		size = getline(&line, &buffer, stdin);
+		line_no++;
 
 		if (line[size - 1] == '\n')
 			line[size - 1] = '\0';
 
 		if (_strcmp(line, "exit") == 0 || size == -1)
 		{
-			free(line);
-			return (0);
+			return (2);
 		}
 
-		if (_strcmp(line, "env") == 0 || size == -1)
+		if (_strcmp(line, "env") == 0)
 		{
 			print_env();
 			continue;
 		}
 
 		argv = tokenize_line(line);
-		argv[0] = pathmaker(argv);
-		exec(argv);
+		exec(argv, av[0], line_no);
 	}
-	free(line);
-	return (0);
 }
