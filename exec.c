@@ -35,8 +35,11 @@ int exec(char **argv, const char *sname, ssize_t line)
 	{
 		execve(fullpath, argv, environ);
 
-		dprintf(STDERR_FILENO, "%s: %lu: %s: not found\n", sname, line, argv[0]);
+		dprintf(STDERR_FILENO, "%s: %lu: %s: %s\n",
+			sname, line, argv[0], _strerror(errno));
 		free(fullpath);
+		if (errno == EACCES || errno == EISDIR)
+			_exit(126);
 		_exit(127);
 	}
 
