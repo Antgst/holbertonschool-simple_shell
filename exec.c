@@ -20,8 +20,6 @@ int exec(char **argv, const char *sname, ssize_t line)
 	{
 		dprintf(STDERR_FILENO, "%s: %lu: %s: %s\n",
 			sname, line, argv[0], _strerror(errno));
-		if (errno == EACCES  || errno == EISDIR)
-			return (126);
 		return (127);
 
 	}
@@ -40,22 +38,14 @@ int exec(char **argv, const char *sname, ssize_t line)
 		dprintf(STDERR_FILENO, "%s: %lu: %s: %s\n",
 			sname, line, argv[0], _strerror(errno));
 		free(fullpath);
-		if (errno == EACCES || errno == EISDIR)
-			_exit(126);
-		_exit(127);
+		_exit(126);
 	}
-
-	if (waitpid(child_pid, &status, 0) == -1)
-        return 1;
 
 	free(fullpath);
 
-    if (WIFEXITED(status))
-        code = WEXITSTATUS(status);
-    else if (WIFSIGNALED(status))
-        code = 128 + WTERMSIG(status);
-    else
-        code = 1;
+	wait(&status);
+	if (WIFEXITED(status))
+		code = WEXITSTATUS(status);
 
-    return (code);
+	return (code);
 }
