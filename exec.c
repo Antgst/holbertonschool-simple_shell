@@ -1,32 +1,30 @@
 #include "shell.h"
 
 /**
- * exec - Executes a command in a child process.
- * @argv: Argument vector for the command.
- * @sname: Name of the program.
- * @line: Line number of the command.
+ * exec - Executes a command in a child process
+ * @argv: Argument vector for the command
+ * @sname: Name of the shell program (argv[0])
+ * @line: Command line number (for error messages)
  *
- * Return: 0 on success, 1 on failure.
+ * Return: Exit status for the executed command (or error status)
  */
-int exec(char **argv, const char *sname, ssize_t line)
+int exec(char **argv, const char *sname, unsigned long line)
 {
 	char *fullpath = NULL;
 	pid_t child_pid;
 	int status;
 
 	fullpath = pathmaker(argv);
-
-	if (!fullpath)
+	if (fullpath == NULL)
 	{
-		dprintf(STDERR_FILENO, "%s: %lu: %s: not found\n",
-				sname, (unsigned long)line, argv[0]);
+		fprintf(stderr, "%s: %lu: %s: not found\n", sname, line, argv[0]);
 		return (127);
-
 	}
+
 	child_pid = fork();
 	if (child_pid == -1)
 	{
-		perror("Error:");
+		perror(sname);
 		free(fullpath);
 		return (1);
 	}
@@ -35,17 +33,31 @@ int exec(char **argv, const char *sname, ssize_t line)
 	{
 		execve(fullpath, argv, environ);
 
-		dprintf(STDERR_FILENO, "%s: %lu: %s: %s\n",
+		fprintf(stderr, "%s: %lu: %s: %s\n",
 			sname, line, argv[0], _strerror(errno));
+
 		free(fullpath);
+
 		if (errno == EACCES || errno == EISDIR)
 			_exit(126);
+
 		_exit(127);
 	}
 
-	waitpid(child_pid, &status, 0);
+	if (waitpid(child_pid, &status, 0) == -1)
+	{
+		perror(sname);
+		free(fullpath);
+		return (1);
+	}
 
 	free(fullpath);
 
-	return (0);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+
+	if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
+
+	return (1);
 }
