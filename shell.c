@@ -1,52 +1,62 @@
 #include "shell.h"
 
 /**
- * main - PID
- * @ac: Argument count.
- * @av: Argument vector.
+ * main - Entry point for the simple shell
+ * @ac: Argument count (unused)
+ * @av: Argument vector (argv[0] is used for error messages)
  *
- * Return: Always 0.
+ * Return: Exit status of the last executed command
  */
 int main(int ac, char **av)
 {
 	char *line = NULL;
-	unsigned long int buffer = 0;
-	ssize_t size;
+	size_t buffer = 0;
+	ssize_t nread;
 	char **argv;
-	ssize_t line_no = 0;
+	unsigned long line_no = 0;
+	int last_status = 0;
+
 	(void)ac;
 
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
-			printf("$ ");
-		size = getline(&line, &buffer, stdin);
-		if (size == -1)
+			printf("($) ");
+
+		nread = getline(&line, &buffer, stdin);
+		if (nread == -1)
 		{
 			if (isatty(STDIN_FILENO))
 				printf("\n");
 			free(line);
-			return (0);
+			return (last_status);
 		}
-		line_no++;
-		if (line[size - 1] == '\n')
-			line[size - 1] = '\0';
 
-		if (_strcmp(line, "exit") == 0)
+		line_no++;
+
+		if (nread > 0 && line[nread - 1] == '\n')
+			line[nread - 1] = '\0';
+
+		argv = tokenize_line(line);
+		if (argv == NULL)
+			continue;
+
+		if (_strcmp(argv[0], "exit") == 0)
 		{
+			free(argv);
 			free(line);
-			return (0);
+			return (last_status);
 		}
-		if (_strcmp(line, "env") == 0)
+
+		if (_strcmp(argv[0], "env") == 0)
 		{
 			print_env();
+			last_status = 0;
+			free(argv);
 			continue;
 		}
-		argv = tokenize_line(line);
-		if (argv != NULL)
-		{
-		exec(argv, av[0], line_no);
-			free(argv);
-		}
+
+		last_status = exec(argv, av[0], line_no);
+		free(argv);
 	}
 }
