@@ -15,6 +15,8 @@ extern char **environ;
 int _strcmp(char *s1, char *s2);
 char *_strcpy(char *dest, char *src);
 int _strlen(char *s);
+char *_strdup(char *str);
+char *_strerror(int err);
 
 int exec(char **argv, const char *shell_name, unsigned long line);
 char **tokenize_line(char *line);
