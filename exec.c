@@ -12,14 +12,17 @@ int exec(char **argv, const char *sname, ssize_t line)
 {
 	char *fullpath = NULL;
 	pid_t child_pid;
-	int status, code;
+	int status, code, err;
 
 	fullpath = pathmaker(argv);
 
 	if (!fullpath)
 	{
+		err = errno;
 		dprintf(STDERR_FILENO, "%s: %lu: %s: %s\n",
 			sname, line, argv[0], _strerror(errno));
+		if (err == EACCES || err == EISDIR || err == ENOEXEC)
+			return (126);
 		return (127);
 
 	}
@@ -34,11 +37,13 @@ int exec(char **argv, const char *sname, ssize_t line)
 	if (child_pid == 0)
 	{
 		execve(fullpath, argv, environ);
-
+		err = errno;
 		dprintf(STDERR_FILENO, "%s: %lu: %s: %s\n",
 			sname, line, argv[0], _strerror(errno));
 		free(fullpath);
-		_exit(126);
+		if (err == EACCES || err == EISDIR || err == ENOEXEC)
+            _exit(126);
+        _exit(127);
 	}
 
 	free(fullpath);
@@ -46,10 +51,6 @@ int exec(char **argv, const char *sname, ssize_t line)
 	wait(&status);
 	if (WIFEXITED(status))
 		code = WEXITSTATUS(status);
-	 else if (WIFSIGNALED(status))
-		code = 128 + WTERMSIG(status);
-	else
-		code = 1;
 
 	return (code);
 }
