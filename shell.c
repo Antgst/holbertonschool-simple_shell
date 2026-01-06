@@ -35,7 +35,7 @@ int main(int ac, char **av)
 		if (_strcmp(line, "exit") == 0)
 		{
 			free(line);
-			if (last_status == 0)
+			if (isatty(STDIN_FILENO))
 				return (2);
 			return (0);
 		}
