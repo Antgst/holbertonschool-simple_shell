@@ -27,7 +27,7 @@ int main(int ac, char **av)
 			if (isatty(STDIN_FILENO))
 				printf("\n");
 			free(line);
-			return (0);
+			return (last_status);
 		}
 		if (line[size - 1] == '\n')
 			line[size - 1] = '\0';
