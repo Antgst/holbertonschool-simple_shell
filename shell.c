@@ -29,22 +29,20 @@ int main(int ac, char **av)
 			free(line);
 			return (0);
 		}
-		line_no++;
 		if (line[size - 1] == '\n')
 			line[size - 1] = '\0';
 
 		if (_strcmp(line, "exit") == 0)
 		{
 			free(line);
-			if (last_status != 2)
-				return (2);
-			return (0);
+			return (line_no);
 		}
 		if (_strcmp(line, "env") == 0)
 		{
 			print_env();
 			continue;
 		}
+		line_no++;
 		argv = tokenize_line(line);
 		if (argv != NULL)
 		{
