@@ -14,7 +14,7 @@ int main(int ac, char **av)
 	ssize_t size;
 	char **argv;
 	ssize_t line_no = 0;
-	int last_status = 0;
+	int last_status = 2;
 	(void)ac;
 
 	while (1)
