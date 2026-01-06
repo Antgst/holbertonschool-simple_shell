@@ -29,6 +29,7 @@ int main(int ac, char **av)
 			free(line);
 			return (last_status);
 		}
+		line_no++;
 		if (line[size - 1] == '\n')
 			line[size - 1] = '\0';
 
@@ -42,7 +43,6 @@ int main(int ac, char **av)
 			print_env();
 			continue;
 		}
-		line_no++;
 		argv = tokenize_line(line);
 		if (argv != NULL)
 		{
