@@ -1,152 +1,137 @@
-# 🐚 C - Simple Shell — Holberton School Rennes
+# 🐚 Simple Shell (Holberton)
 
-## 📝 Description
-This project is a **simple UNIX command interpreter** (a minimal shell) built in **C**.  
-It reproduces the core behavior of `/bin/sh` in both **interactive** and **non-interactive** modes: read input, parse commands, resolve programs using `PATH`, create child processes, execute binaries with `execve`, and match `sh` error behavior (with one key difference: the program name in errors must match `argv[0]`).
+A minimal UNIX command line interpreter written in **C**, built for the **Holberton “Simple Shell”** project.
 
 ---
 
-## 🎯 Learning Objectives
-By the end of this project, we are expected to be able to explain (without Google):
+## ✨ Features (Implemented)
 
-### General
-- Who designed and implemented the original Unix operating system
-- Who wrote the first version of the UNIX shell
-- Who invented the B programming language (predecessor of C)
-- Who Ken Thompson is
-- How a shell works
-- What `pid` and `ppid` are
-- How to manipulate the environment of the current process
-- The difference between a function and a system call
-- How to create processes
-- The three prototypes of `main`
-- How the shell uses the `PATH` to find programs
-- How to execute another program with the `execve` system call
-- How to suspend execution of a process until one of its children terminates
-- What EOF (“end-of-file”) means
+- **Interactive mode** with prompt: `($) `
+- **Non-interactive mode** (reads commands from `stdin`)
+- **Tokenization** (splits input into `argv`)
+- **PATH resolution**
+  - Searches `PATH` **only if** the command does **not** contain `/`
+  - Handles **empty PATH entries** (`::`, leading/trailing `:`) as current directory `.`
+- **Environment support**
+  - Builtin: `env` (prints the environment)
+- Exit support
+  - Builtin: `exit` (exits with the last command status)
 
 ---
 
-## ⚙️ Requirements
-- OS: Ubuntu 20.04 LTS
-- Compiler: `gcc` with `-Wall -Werror -Wextra -pedantic -std=gnu89`
-- Allowed editors: `vi`, `vim`, `emacs`
-- Code style: **Betty** (`betty-style.pl` and `betty-doc.pl`)
-- No memory leaks
+## 🚫 Not Implemented (Project Scope)
+
+- Pipes: `|`
+- Separators: `;`
+- Redirections: `>`, `<`, `>>`, `2>`
+- Quotes / escaping: `"..."`, `'...'`, `\`
+- Globbing / wildcards: `*`
+- Job control, history, aliases
+- Builtins like `cd`, `setenv`, `unsetenv`
+
+---
+
+## ✅ Requirements
+
+- Ubuntu 20.04 LTS
+- Compilation:
+  - `gcc -Wall -Werror -Wextra -pedantic -std=gnu89`
+- Betty style compliant
+- No memory leaks (Valgrind-ready)
 - Max **5 functions per file**
-- All header files must be **include-guarded**
-- Use system calls only when needed (and know why)
 
 ---
 
-## ✅ Output Rules
-Unless specified otherwise:
-- Output must match `/bin/sh` (same standard output and error output)
-- Only difference: when printing errors, the program name must match **your `argv[0]`**
+## 🧱 Compilation
 
-Example with `sh`:
-```bash
-echo "qwerty" | /bin/sh
-# /bin/sh: 1: qwerty: not found
-
-echo "qwerty" | /bin/../bin/sh
-# /bin/../bin/sh: 1: qwerty: not found
-```
-
-Same error with your program `hsh`:
-```bash
-echo "qwerty" | ./hsh
-# ./hsh: 1: qwerty: not found
-
-echo "qwerty" | ./././hsh
-# ./././hsh: 1: qwerty: not found
-```
-
----
-
-## 🧰 Allowed Functions & System Calls
-- All functions from `<string.h>`
-- `access`, `chdir`, `close`
-- `closedir`, `opendir`, `readdir`
-- `execve`
-- `exit`, `_exit`
-- `fflush`
-- `fork`
-- `free`, `malloc`
-- `getcwd`
-- `getline`
-- `getpid`
-- `isatty`
-- `kill`
-- `open`, `read`, `write`
-- `perror`, `printf`, `fprintf`, `vfprintf`, `sprintf`, `putchar`
-- `signal`
-- `stat`, `lstat`, `fstat`
-- `strtok`
-- `wait`, `waitpid`, `wait3`, `wait4`
-
----
-
-## 🛠️ Compilation
 ```bash
 gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
 ```
 
 ---
 
-## ▶️ Usage
-### Interactive mode
-```bash
-./hsh
+## 🚀 Usage
+
+### 🧑‍💻 Interactive Mode
+```text
+$ ./hsh
 ($) /bin/ls
-hsh main.c shell.c
-($)
+...
+($) env
+USER=...
+PATH=...
+...
 ($) exit
+$
 ```
 
-### Non-interactive mode
+### 🤖 Non-Interactive Mode
 ```bash
 echo "/bin/ls" | ./hsh
+cat file_with_commands | ./hsh
 ```
 
-Or with a file:
+---
+
+## 🧨 Error Handling & Exit Status
+
+This shell aims to behave like `/bin/sh` for basic execution.
+
+- **Command not found**
+  - Prints:
+    - `<shell_name>: <line>: <command>: not found`
+  - Returns status: **127**
+
+- **Permission denied / Is a directory**
+  - Returns status: **126**
+
+- The shell process exits with the **status of the last executed command**, like `/bin/sh`.
+
+---
+
+## 🗂️ Project Structure
+
+| 📄 File | 📌 Purpose |
+|--------|------------|
+| `shell.c` | Main loop: prompt → read → tokenize → builtins → execute |
+| `tokenize_line.c` | Splits input into tokens (`argv`) |
+| `exec.c` | `fork()` + `execve()` + `waitpid()` + status propagation |
+| `pathmaker.c` | Builds the executable path using `PATH` (handles empty entries) |
+| `getenv.c` | `_getenv()` helper (reads from `environ`) |
+| `print_env.c` | Prints environment variables for `env` |
+| `_strerror.c` | Error message helper (`ENOENT` -> `"not found"`, else `strerror`) |
+| `shell.h` | Headers, includes, prototypes |
+| `man_1_simple_shell` | Manual page |
+| `AUTHORS` | Project authors |
+
+---
+
+## 📚 Man Page
+
 ```bash
-cat test_ls_2 | ./hsh
+man ./man_1_simple_shell
 ```
 
 ---
 
-## 🧪 Testing & Quality
-Recommended checks:
-- Compare behavior with `/bin/sh` for:
-  - command not found errors
-  - empty lines / spaces / tabs
-  - `PATH` resolution
-  - EOF handling (`Ctrl+D`)
-  - exit status behavior
-- Memory: no leaks expected
+## 🧪 Quick Testing
+
 ```bash
-valgrind --leak-check=full --show-leak-kinds=all ./hsh
+# interactive
+./hsh
+
+# non-interactive
+echo "ls" | ./hsh
+
+# not found -> 127
+echo "qwerty" | ./hsh
+echo $?
 ```
 
 ---
 
-## 📚 Resources
-- Unix shell
-- Thompson shell
-- Ken Thompson
-- Holberton concept page: “Everything you need to know to start coding your own shell”
-- `man sh` (run `/bin/sh` too)
-- `man 2 execve`, `man 2 fork`, `man 2 wait`, `man 3 getline`, `man 3 strtok`, etc.
+## 👥 Authors
+* Yonas Houriez – GitHub: [Ausaryu](https://github.com/Ausaryu)  
+* Antoine Gousset – GitHub: [Antgst](https://github.com/Antgst)
 
----
-
-## 👥 Team
-* Antoine Gousset – GitHub: [Antgst](https://github.com/Antgst)  
-* Yonas Houriez – GitHub: [Ausaryu](https://github.com/Ausaryu)
-
----
-
-## 📌 Notes
-- The checker is released near the end of the project: build a solid test suite early.
-- After the deadline, you may need to fork the repository to your GitHub account for checker correction.
+See `AUTHORS`.
