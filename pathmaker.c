@@ -11,6 +11,7 @@ char *make_path(char *path, char *file);
 char *pathmaker(char **av)
 {
 	struct stat st;
+<<<<<<< HEAD
 	char *path, *path_copy, *start, *end;
 	char *fullpath;
 
@@ -24,6 +25,18 @@ char *pathmaker(char **av)
 			return (_strdup(av[0]));
 		return (NULL);
 	}
+=======
+	char *path = _getenv("PATH");
+	char *spath, *path_copy;
+	char *fullpath = NULL;
+	int saw_eacces = 0;
+
+	if (!av || !av[0])
+		return (NULL);
+
+	if (_strchr(av[0], '/') && stat(av[0], &st) == 0)
+		return (_strdup(av[0]));
+>>>>>>> main
 
 	path = _getenv("PATH");
 	if (path == NULL)
@@ -36,6 +49,7 @@ char *pathmaker(char **av)
 	start = path_copy;
 	while (start != NULL)
 	{
+<<<<<<< HEAD
 		char *dir;
 
 		end = strchr(start, ':');
@@ -47,6 +61,13 @@ char *pathmaker(char **av)
 
 		fullpath = make_path(dir, av[0]);
 		if (fullpath == NULL)
+=======
+		if (spath[0] == '\0')
+			spath = ".";
+
+		fullpath = make_path(spath, av[0]);
+		if (!fullpath)
+>>>>>>> main
 		{
 			free(path_copy);
 			return (NULL);
@@ -58,13 +79,21 @@ char *pathmaker(char **av)
 			return (fullpath);
 		}
 
+		if (errno == EACCES)
+			saw_eacces = 1;
+
 		free(fullpath);
 
+<<<<<<< HEAD
 		if (end == NULL)
 			break;
 
 		start = end + 1;
 	}
+=======
+	if (saw_eacces)
+		errno = EACCES;
+>>>>>>> main
 
 	free(path_copy);
 	return (NULL);

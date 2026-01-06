@@ -12,7 +12,7 @@ int exec(char **argv, const char *sname, unsigned long line)
 {
 	char *fullpath = NULL;
 	pid_t child_pid;
-	int status;
+	int status, code, err;
 
 	fullpath = pathmaker(argv);
 	if (fullpath == NULL)
