@@ -13,57 +13,40 @@ char *pathmaker(char **av)
 {
 	struct stat st;
 	char *path = _getenv("PATH");
-	char *copy, *start, *end;
+	char *spath, *path_copy;
 	char *fullpath = NULL;
 	int saw_eacces = 0;
-	char saved;
 
 	if (!av || !av[0])
 		return (NULL);
 
-	/* Si la commande contient '/', on ne cherche PAS dans PATH */
-	if (strchr(av[0], '/') != NULL)
-	{
-		if (stat(av[0], &st) == 0)
-			return (_strdup(av[0]));
-		return (NULL);
-	}
+	if (_strchr(av[0], '/') && stat(av[0], &st) == 0)
+		return (_strdup(av[0]));
 
 	if (path == NULL)
 		return (NULL);
 
-	copy = _strdup(path);
-	if (copy == NULL)
+	path_copy = _strdup(path);
+	if (path_copy == NULL)
 		return (NULL);
 
-	start = copy;
+	spath = strtok(path_copy, ":");
 
-	while (1)
+	while (spath != NULL)
 	{
-		end = start;
-		while (*end && *end != ':')
-			end++;
+		if (spath[0] == '\0')
+			spath = ".";
 
-		saved = *end;      /* ':' ou '\0' */
-		*end = '\0';       /* on isole le token */
-
-		/* token vide => "." */
-		if (*start == '\0')
-			fullpath = make_path(".", av[0]);
-		else
-			fullpath = make_path(start, av[0]);
-
-		*end = saved;      /* on restaure */
-
-		if (fullpath == NULL)
+		fullpath = make_path(spath, av[0]);
+		if (!fullpath)
 		{
-			free(copy);
+			free(path_copy);
 			return (NULL);
 		}
 
 		if (stat(fullpath, &st) == 0)
 		{
-			free(copy);
+			free(path_copy);
 			return (fullpath);
 		}
 
@@ -72,21 +55,15 @@ char *pathmaker(char **av)
 
 		free(fullpath);
 		fullpath = NULL;
-
-		if (saved == '\0')
-			break;
-
-		start = end + 1;
+		spath = strtok(NULL, ":");
 	}
-
-	free(copy);
+	free(path_copy);
 
 	if (saw_eacces)
 		errno = EACCES;
 
 	return (NULL);
 }
-
 
 /**
  * make_path - concatenate path and file into a full path
