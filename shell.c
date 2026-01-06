@@ -14,7 +14,6 @@ int main(int ac, char **av)
 	ssize_t size;
 	char **argv;
 	ssize_t line_no = 0;
-	int last_status = 1;
 	(void)ac;
 
 	while (1)
@@ -48,7 +47,7 @@ int main(int ac, char **av)
 		argv = tokenize_line(line);
 		if (argv != NULL)
 		{
-		last_status = exec(argv, av[0], line_no);
+		exec(argv, av[0], line_no);
 			free(argv);
 		}
 	}
