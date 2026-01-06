@@ -14,6 +14,7 @@ int main(int ac, char **av)
 	ssize_t size;
 	char **argv;
 	ssize_t line_no = 0;
+	int last_status = 0;
 	(void)ac;
 
 	while (1)
@@ -35,7 +36,7 @@ int main(int ac, char **av)
 		if (_strcmp(line, "exit") == 0)
 		{
 			free(line);
-			return (0);
+			return (last_status);
 		}
 		if (_strcmp(line, "env") == 0)
 		{
@@ -45,7 +46,7 @@ int main(int ac, char **av)
 		argv = tokenize_line(line);
 		if (argv != NULL)
 		{
-		exec(argv, av[0], line_no);
+		last_status = exec(argv, av[0], line_no);
 			free(argv);
 		}
 	}
