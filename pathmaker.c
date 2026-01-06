@@ -3,23 +3,29 @@
 char *make_path(char *path, char *file);
 
 /**
- * pathmaker - Searches for files in directories listed in the PATH environment
- * @av: Array of arguments containing file names to search.
+ * pathmaker - Build the full path for a command using PATH
+ * @av: Argument vector (av[0] is the command name)
  *
- * Return: 0 on success, 1 on failure.
+ * Return: Newly allocated full path, or NULL if not found
  */
-
 char *pathmaker(char **av)
 {
 	struct stat st;
-	char *path = _getenv("PATH");
-	char *spath, *path_copy;
-	char *fullpath = NULL;
-	int check = 0;
+	char *path, *path_copy, *start, *end;
+	char *fullpath;
 
-	if (stat(av[0], &st) == 0)
-		return (_strdup(av[0]));
+	if (av == NULL || av[0] == NULL)
+		return (NULL);
 
+	/* If command contains '/', do not search PATH (like /bin/sh). */
+	if (strchr(av[0], '/') != NULL)
+	{
+		if (stat(av[0], &st) == 0)
+			return (_strdup(av[0]));
+		return (NULL);
+	}
+
+	path = _getenv("PATH");
 	if (path == NULL)
 		return (NULL);
 
@@ -27,42 +33,49 @@ char *pathmaker(char **av)
 	if (path_copy == NULL)
 		return (NULL);
 
-	spath = strtok(path_copy, ":");
-
-	while (spath != NULL)
+	start = path_copy;
+	while (start != NULL)
 	{
-		fullpath = make_path(spath, av[0]);
-		if (!fullpath)
-			break;
+		char *dir;
+
+		end = strchr(start, ':');
+		if (end != NULL)
+			*end = '\0';
+
+		/* Empty entry means current directory. */
+		dir = (*start == '\0') ? "." : start;
+
+		fullpath = make_path(dir, av[0]);
+		if (fullpath == NULL)
+		{
+			free(path_copy);
+			return (NULL);
+		}
 
 		if (stat(fullpath, &st) == 0)
 		{
-			check = 1;
-			break;
+			free(path_copy);
+			return (fullpath);
 		}
 
 		free(fullpath);
-		fullpath = NULL;
-		spath = strtok(NULL, ":");
+
+		if (end == NULL)
+			break;
+
+		start = end + 1;
 	}
+
 	free(path_copy);
-
-	if (check != 0)
-		return (fullpath);
-
-	if (fullpath)
-		free(fullpath);
-
 	return (NULL);
 }
 
 /**
- * make_path - concatenate path and file into a full path
+ * make_path - Concatenate a directory and a file into a full path
+ * @path: Directory path
+ * @file: File name
  *
- * @path: path to directory
- * @file: name of file
- *
- * Return: pointer to full path, or NULL if error
+ * Return: Newly allocated full path, or NULL on failure
  */
 char *make_path(char *path, char *file)
 {
@@ -72,7 +85,7 @@ char *make_path(char *path, char *file)
 
 	len = _strlen(path) + 1 + _strlen(file) + 1;
 	fullpath = malloc(len);
-	if (!fullpath)
+	if (fullpath == NULL)
 		return (NULL);
 
 	while (path[i] != '\0')
@@ -91,5 +104,6 @@ char *make_path(char *path, char *file)
 		y++;
 	}
 	fullpath[y] = '\0';
+
 	return (fullpath);
 }
