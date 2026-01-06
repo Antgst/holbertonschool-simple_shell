@@ -14,30 +14,28 @@ int main(int ac, char **av)
 	ssize_t size;
 	char **argv;
 	ssize_t line_no = 0;
-
 	(void)ac;
 
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
 			printf("$ ");
-
 		size = getline(&line, &buffer, stdin);
-		line_no++;
 		if (size == -1)
 		{
-			printf("\n");
+			if (isatty(STDIN_FILENO))
+				printf("\n");
 			free(line);
 			return (0);
 		}
-
+		line_no++;
 		if (line[size - 1] == '\n')
 			line[size - 1] = '\0';
 
 		if (_strcmp(line, "exit") == 0)
 		{
 			free(line);
-			return (2);
+			return (0);
 		}
 		if (_strcmp(line, "env") == 0)
 		{
@@ -46,6 +44,9 @@ int main(int ac, char **av)
 		}
 		argv = tokenize_line(line);
 		if (argv != NULL)
-			exec(argv, av[0], line_no);
+		{
+		exec(argv, av[0], line_no);
+			free(argv);
+		}
 	}
 }

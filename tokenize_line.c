@@ -12,22 +12,26 @@ char **tokenize_line(char *line)
 	char *token;
 	size_t argcount = 0;
 	char **argv;
-	char copy[1024];
+	char *copy;
 	size_t idx = 0;
 
 	if (line == NULL)
 		return (NULL);
-	_strcpy(copy, line);
+	copy = _strdup(line);
+	if (!copy)
+		return (NULL);
 
 	token = strtok(copy, " \t");
-
 	while (token != NULL)
 	{
 		argcount++;
 		token = strtok(NULL, " \t");
 	}
+	free(copy);
+
 	if (argcount == 0)
 		return (NULL);
+
 	argv = malloc(sizeof(char *) * (argcount + 1));
 	if (argv == NULL)
 		return (NULL);

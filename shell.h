@@ -19,7 +19,8 @@ int _strlen(char *s);
 int exec(char **argv, const char *shell_name, unsigned long line);
 char **tokenize_line(char *line);
 char *pathmaker(char **av);
-int print_env(void);
+
 char *_getenv(const char *name);
+int print_env(void);
 
 #endif

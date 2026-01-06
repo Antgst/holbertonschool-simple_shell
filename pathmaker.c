@@ -14,33 +14,46 @@ char *pathmaker(char **av)
 	struct stat st;
 	char *path = _getenv("PATH");
 	char *spath, *path_copy;
-	char *fullpath;
+	char *fullpath = NULL;
+	int check = 0;
 
-	path_copy = malloc(_strlen(path) + 1);
-	if (!path_copy)
-		return (av[0]);
-	_strcpy(path_copy, path);
+	if (stat(av[0], &st) == 0)
+		return (_strdup(av[0]));
+
+	if (path == NULL)
+		return (NULL);
+
+	path_copy = _strdup(path);
+	if (path_copy == NULL)
+		return (NULL);
 
 	spath = strtok(path_copy, ":");
 
-	if (stat(av[0], &st) != 0)
+	while (spath != NULL)
 	{
-		while (spath != NULL)
+		fullpath = make_path(spath, av[0]);
+		if (!fullpath)
+			break;
+
+		if (stat(fullpath, &st) == 0)
 		{
-			fullpath = make_path(spath, av[0]);
-
-			if (stat(fullpath, &st) == 0)
-				break;
-
-			spath = strtok(NULL, ":");
+			check = 1;
+			break;
 		}
-		free(path_copy);
+
+		free(fullpath);
+		fullpath = NULL;
+		spath = strtok(NULL, ":");
+	}
+	free(path_copy);
+
+	if (check != 0)
 		return (fullpath);
-	}
-	else
-	{
-		return (av[0]);
-	}
+
+	if (fullpath)
+		free(fullpath);
+
+	return (NULL);
 }
 
 /**
