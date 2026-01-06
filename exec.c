@@ -12,7 +12,7 @@ int exec(char **argv, const char *sname, ssize_t line)
 {
 	char *fullpath = NULL;
 	pid_t child_pid;
-	int status;
+	int status, code;
 
 	fullpath = pathmaker(argv);
 
@@ -45,9 +45,15 @@ int exec(char **argv, const char *sname, ssize_t line)
 		_exit(127);
 	}
 
-	waitpid(child_pid, &status, 0);
+	if (waitpid(child_pid, &status, 0) == -1)
+        return 1;
 
-	free(fullpath);
+    if (WIFEXITED(status))
+        code = WEXITSTATUS(status);
+    else if (WIFSIGNALED(status))
+        code = 128 + WTERMSIG(status);
+    else
+        code = 1;
 
-	return (0);
+    return code;
 }
