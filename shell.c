@@ -45,7 +45,7 @@ int main(int ac, char **av)
 		argv = tokenize_line(line);
 		if (argv != NULL)
 		{
-		last_status = exec(argv, av[0], line_no);
+		exec(argv, av[0], line_no);
 			free(argv);
 		}
 	}
