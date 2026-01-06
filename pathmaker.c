@@ -15,9 +15,12 @@ char *pathmaker(char **av)
 	char *path = _getenv("PATH");
 	char *spath, *path_copy;
 	char *fullpath = NULL;
-	int check = 0;
+	int saw_eacces = 0;
 
-	if (stat(av[0], &st) == 0)
+	if (!av || !av[0])
+		return (NULL);
+
+	if (_strchr(av[0], '/') && stat(av[0], &st) == 0)
 		return (_strdup(av[0]));
 
 	if (path == NULL)
@@ -31,15 +34,24 @@ char *pathmaker(char **av)
 
 	while (spath != NULL)
 	{
+		if (spath[0] == '\0')
+			spath = ".";
+
 		fullpath = make_path(spath, av[0]);
 		if (!fullpath)
-			break;
+		{
+			free(path_copy);
+			return (NULL);
+		}
 
 		if (stat(fullpath, &st) == 0)
 		{
-			check = 1;
-			break;
+			free(path_copy);
+			return (fullpath);
 		}
+
+		if (errno == EACCES)
+			saw_eacces = 1;
 
 		free(fullpath);
 		fullpath = NULL;
@@ -47,11 +59,8 @@ char *pathmaker(char **av)
 	}
 	free(path_copy);
 
-	if (check != 0)
-		return (fullpath);
-
-	if (fullpath)
-		free(fullpath);
+	if (saw_eacces)
+		errno = EACCES;
 
 	return (NULL);
 }
