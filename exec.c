@@ -20,6 +20,8 @@ int exec(char **argv, const char *sname, ssize_t line)
 	{
 		dprintf(STDERR_FILENO, "%s: %lu: %s: %s\n",
 			sname, line, argv[0], _strerror(errno));
+		if (errno == EACCES  || errno == EISDIR)
+			return (126);
 		return (127);
 
 	}
@@ -38,6 +40,8 @@ int exec(char **argv, const char *sname, ssize_t line)
 		dprintf(STDERR_FILENO, "%s: %lu: %s: %s\n",
 			sname, line, argv[0], _strerror(errno));
 		free(fullpath);
+		if (errno == EACCES || errno == EISDIR)
+			_exit(126);
 		_exit(127);
 	}
 
