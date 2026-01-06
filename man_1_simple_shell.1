@@ -1,0 +1,157 @@
+.\" Man page for simple_shell
+.TH SIMPLE_SHELL 1 "January 2026" "Holberton School" "User Commands Manual"
+.SH NAME
+
+hsh \- a minimal UNIX command line interpreter (Holberton Simple Shell)
+
+.SH SYNOPSIS
+.B ./hsh
+.PP
+.BR "echo " \&"command" " | ./hsh"
+.PP
+.BR "cat " file " | ./hsh"
+
+.SH DESCRIPTION
+.B hsh
+is a minimal UNIX command line interpreter that reads commands from standard input
+and executes them using
+.BR fork (2)
+and
+.BR execve (2).
+.PP
+In interactive mode,
+.B hsh
+displays the prompt:
+.BR "($) "
+then waits for a command line, executes it, and repeats until EOF or the
+.B exit
+built-in is used.
+.PP
+In non-interactive mode,
+.B hsh
+reads commands from standard input (one command per line) and executes each line.
+This mode is typically used with pipes or redirected input.
+.PP
+This project is intentionally limited and focuses on:
+.IP \[bu] 2
+basic command execution
+.IP \[bu]
+PATH resolution for commands without
+.B /
+.IP \[bu]
+minimal built-ins (see below)
+.PP
+It does not implement advanced shell features such as pipes, separators,
+redirections, quoting, history, aliases, or job control.
+
+.SH BUILTINS
+The following built-ins are implemented:
+.TP
+.B env
+Prints the current environment, one variable per line, to standard output.
+.TP
+.B exit
+Exits the shell. The process exits with the status of the last executed command.
+No argument handling is implemented.
+
+.SH PATH RESOLUTION
+When executing a command:
+.IP \[bu] 2
+If the command name contains a slash
+.RB ( / ),
+.B hsh
+does not search
+.BR PATH ;
+it attempts to execute the command exactly as provided.
+.IP \[bu]
+If the command does not contain a slash,
+.B hsh
+searches each directory listed in the
+.B PATH
+environment variable and executes the first match found.
+.IP \[bu]
+Empty entries in
+.B PATH
+(e.g. leading, trailing, or consecutive colons such as
+.BR "::" )
+are treated as the current directory
+.RB ( "." ).
+
+.SH EXIT STATUS
+The shell process exits with the status of the last executed command, similar to
+.BR sh (1).
+.PP
+Typical exit statuses returned for a command execution are:
+.TP
+.B 0
+Success (command executed and returned 0).
+.TP
+.B 126
+Command found but not executable (permission denied, or a directory).
+.TP
+.B 127
+Command not found.
+.PP
+If a child process is terminated by a signal,
+.B hsh
+returns:
+.BR 128 + signal_number .
+
+.SH ERROR FORMAT
+On errors, messages are printed to standard error using a format similar to
+.BR sh (1):
+.PP
+.nf
+<shell_name>: <line_number>: <command>: not found
+.fi
+.PP
+Where:
+.IP \[bu] 2
+.I shell_name
+is the program name (argv[0])
+.IP \[bu]
+.I line_number
+is the current input line number (notably relevant in non-interactive mode)
+
+.SH EXAMPLES
+.PP
+Interactive mode:
+.PP
+.nf
+$ ./hsh
+($) /bin/ls
+($) env
+USER=...
+PATH=...
+($) exit
+$
+.fi
+.PP
+Non-interactive mode:
+.PP
+.nf
+$ echo "/bin/ls" | ./hsh
+$ echo "qwerty" | ./hsh
+./hsh: 1: qwerty: not found
+$ echo $?
+127
+.fi
+
+.SH NOTES
+This shell is an educational project developed for the Holberton curriculum.
+It is not intended to be a complete POSIX shell and only guarantees the behavior
+documented in this manual page.
+
+.SH SEE ALSO
+.BR sh (1),
+.BR bash (1),
+.BR fork (2),
+.BR execve (2),
+.BR waitpid (2),
+.BR stat (2),
+.BR environ (7)
+
+.SH AUTHORS
+See the
+.B AUTHORS
+file in the project repository.
