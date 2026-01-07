@@ -19,7 +19,7 @@ int exec(char **argv, const char *sname, ssize_t line)
 	if (!fullpath)
 	{
 		err = errno;
-		dprintf(STDERR_FILENO, "%s: %lu: %s: %s\n",
+		fprintf(stderr, "%s: %lu: %s: %s\n",
 			sname, line, argv[0], _strerror(errno));
 		if (err == EACCES || err == EISDIR || err == ENOEXEC)
 			return (126);
@@ -38,7 +38,7 @@ int exec(char **argv, const char *sname, ssize_t line)
 	{
 		execve(fullpath, argv, environ);
 		err = errno;
-		dprintf(STDERR_FILENO, "%s: %lu: %s: %s\n",
+		fprintf(stderr, "%s: %lu: %s: %s\n",
 			sname, line, argv[0], _strerror(errno));
 		free(fullpath);
 		if (err == EACCES || err == EISDIR || err == ENOEXEC)

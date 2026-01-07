@@ -32,7 +32,6 @@ int main(int ac, char **av)
 		line_no++;
 		if (line[size - 1] == '\n')
 			line[size - 1] = '\0';
-
 		argv = tokenize_line(line);
 		if (argv != NULL)
 		{
