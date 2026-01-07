@@ -1,59 +1,65 @@
 # 🐚 Simple Shell (Holberton)
 
-A minimal UNIX command line interpreter written in **C** for the Holberton **Simple Shell** project.
+Minimal UNIX command line interpreter written in **C** (Holberton *simple_shell* project).
 
 ---
 
 ## 📌 Description
 
-This project implements a small shell that:
-- reads a command line from standard input (interactive or non-interactive),
-- tokenizes it into an `argv[]` array,
-- resolves the command path (using `PATH` when appropriate),
-- executes programs using `fork()` + `execve()`,
-- waits for completion using `waitpid()`,
-- provides the built-ins `exit` and `env`.
+`hsh` reads commands from **stdin**, tokenizes them into an `argv[]` array, resolves the executable
+(using `PATH` when needed), then runs programs with `fork()` + `execve()` and waits with `waitpid()`.
 
-Per the subject, the goal is to match **`/bin/sh` output and error output**, with the only difference that the error prefix must be the shell program name (`argv[0]`).
+Project requirement (subject): output and error output should match **`/bin/sh`**, except the error prefix must be `argv[0]`.
 
----
-
-## ✨ Features (Implemented)
-
-- **Interactive mode** (TTY stdin): prints a prompt and waits for commands
-- **Non-interactive mode**: reads commands from `stdin` (pipes / redirected input)
-- **Tokenization**: splits input on spaces/tabs into `argv`
-- **PATH resolution**
-  - searches `PATH` only if the command does **not** contain `/`
-  - does **not** call `fork()` if the command cannot be found
-- **Built-ins**
-  - `exit` — exits the shell (no argument handling required by the subject)
-  - `env` — prints the environment
+This repository implements:
+- interactive and non-interactive execution
+- commands **with arguments**
+- `PATH` resolution
+- built-ins: `exit`, `env`
 
 ---
 
-## 🚫 Not Implemented (Project Scope)
+## ✅ Implemented
 
-- Pipes: `|`
-- Separators: `;`, `&&`, `||`
-- Redirections: `>`, `<`, `>>`, `2>`
-- Quotes / escaping: `"..."`, `'...'`, `\`
-- Globbing / wildcards: `*`
+### Modes
+- **Interactive** (`isatty(stdin)`): prints a prompt, reads a line, executes, repeats
+- **Non-interactive**: reads commands from stdin (pipes / redirected input)
+
+### Parsing
+- Tokenization on **spaces and tabs**
+- Arguments are supported (`ls -l /tmp`)
+
+### Execution
+- Uses `fork()` + `execve()`
+- Returns the **last command status**
+- Does **not** call `fork()` when a command cannot be resolved (no executable path found)
+
+### Built-ins
+- `exit` — exits the shell (**no argument handling**)
+- `env` — prints the environment
+
+---
+
+## 🚫 Not implemented (scope)
+
+- Pipes `|`
+- Command separators `;`, `&&`, `||`
+- Redirections `>`, `<`, `>>`, `2>`
+- Quotes / escaping
+- Globbing (`*`)
 - History, aliases, job control
 - Built-ins like `cd`, `setenv`, `unsetenv`
 
 ---
 
-## ✅ Requirements (Subject)
+## ⚙️ Requirements (subject)
 
-- OS: **Ubuntu 20.04 LTS**
-- Compilation:
-  - `gcc -Wall -Werror -Wextra -pedantic -std=gnu89`
-- **Betty** style compliant
-- **No memory leaks**
-- Max **5 functions per file**
-- Header files must be **include guarded**
-- Use system calls only when needed
+- Ubuntu **20.04 LTS**
+- `gcc -Wall -Werror -Wextra -pedantic -std=gnu89`
+- Betty style compliant
+- No memory leaks
+- Max 5 functions per file
+- Include-guarded headers
 
 ---
 
@@ -61,3 +67,108 @@ Per the subject, the goal is to match **`/bin/sh` output and error output**, wit
 
 ```bash
 gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
+```
+
+---
+
+## 🚀 Usage
+
+### Interactive
+> **Note:** in this repository the prompt printed is `$ `.
+
+```text
+$ ./hsh
+$ /bin/ls
+AUTHORS  exec.c  getenv.c  pathmaker.c  print_env.c  shell.c  shell.h  tokenize_line.c
+$ exit
+$
+```
+
+### Non-interactive
+```bash
+echo "/bin/ls" | ./hsh
+printf "ls -l /tmp\nwhoami\n" | ./hsh
+```
+
+---
+
+## 🧨 Errors & exit status (current behavior)
+
+### Command not found
+Printed on **stderr**:
+```text
+<shell_name>: <line_number>: <command>: not found
+```
+Returned status: **127**
+
+### `execve()` failure after a path was built/found
+Printed on **stderr** (current message):
+```text
+<shell_name>: <line_number>: <command>: acces denied
+```
+Returned status: **126**
+
+### Signals
+If the child terminates due to a signal, the returned status is:
+`128 + signal_number`
+
+---
+
+## ⚠️ Notes vs `/bin/sh` requirement (subject)
+
+The subject asks for the same output/error output as `/bin/sh`.
+This repository matches the main format for “not found”, but there are known differences:
+- Prompt is `$ ` (subject examples show `($) `)
+- `env` does not update the stored “last status” in the main loop
+- A non-executable command **with a slash** (e.g. `./file_without_x`) is treated as “not found” (127) by path resolution, while `/bin/sh` typically reports “Permission denied” (126)
+
+If you want strict `/bin/sh` parity, these points should be aligned in code.
+
+---
+
+## 🗂️ Repository files
+
+| File | Purpose |
+|------|---------|
+| `shell.c` | Main loop: prompt → `getline()` → tokenize → builtins → execute |
+| `tokenize_line.c` | Tokenization into `argv[]` (spaces/tabs) |
+| `pathmaker.c` | Resolve executable path (`PATH` search) |
+| `exec.c` | `fork()` + `execve()` + `waitpid()` + status propagation |
+| `getenv.c` | `_getenv()` helper |
+| `print_env.c` | `env` builtin output |
+| `_strlen.c` `_strcmp.c` `_strcpy.c` `_strdup.c` `_strchr.c` | small string helpers |
+| `shell.h` | prototypes / includes |
+| `man_1_simple_shell` | man page (to be installed / viewed with `man`) |
+| `AUTHORS` | contributors |
+
+---
+
+## 📚 Man page
+
+```bash
+man ./man_1_simple_shell
+```
+
+---
+
+## 🧪 Quick tests
+
+```bash
+# not found -> 127
+echo "qwerty" | ./hsh
+echo $?
+
+# args + PATH resolution
+echo "ls -l /tmp" | ./hsh
+
+# env builtin
+echo "env" | ./hsh
+```
+
+---
+
+## 👥 Authors
+* Yonas Houriez – GitHub: [Ausaryu](https://github.com/Ausaryu)  
+* Antoine Gousset – GitHub: [Antgst](https://github.com/Antgst)
+
+See `AUTHORS`.
