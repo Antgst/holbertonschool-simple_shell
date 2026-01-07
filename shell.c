@@ -13,14 +13,9 @@ int main(int ac, char **av)
 	size_t buffer = 0;
 	ssize_t nread;
 	char **argv;
-<<<<<<< HEAD
 	unsigned long line_no = 0;
 	int last_status = 0;
 
-=======
-	ssize_t line_no = 0;
-	int last_status = 0;
->>>>>>> main
 	(void)ac;
 
 	while (1)
@@ -39,7 +34,6 @@ int main(int ac, char **av)
 
 		line_no++;
 
-<<<<<<< HEAD
 		if (nread > 0 && line[nread - 1] == '\n')
 			line[nread - 1] = '\0';
 
@@ -58,24 +52,6 @@ int main(int ac, char **av)
 		{
 			print_env();
 			last_status = 0;
-=======
-		argv = tokenize_line(line);
-		if (argv != NULL)
-		{
-			if (_strcmp(argv[0], "exit") == 0)
-			{
-				free(argv);
-				free(line);
-				exit(last_status);
-			}
-			if (_strcmp(argv[0], "env") == 0)
-			{
-				print_env();
-				free(argv);
-				continue;
-			}
-			last_status = exec(argv, av[0], line_no);
->>>>>>> main
 			free(argv);
 			continue;
 		}
