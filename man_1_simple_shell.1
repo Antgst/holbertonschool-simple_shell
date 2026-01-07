@@ -1,156 +1,125 @@
-.\" Man page for simple_shell
+.\" Man page for simple_shell (Holberton)
 .TH SIMPLE_SHELL 1 "January 2026" "Holberton School" "User Commands Manual"
 .SH NAME
-
-hsh \- a minimal UNIX command line interpreter (Holberton Simple Shell)
-
+hsh \- minimal UNIX command line interpreter (Holberton Simple Shell)
 .SH SYNOPSIS
 .B ./hsh
 .PP
 .BR "echo " \&"command" " | ./hsh"
 .PP
 .BR "cat " file " | ./hsh"
-
 .SH DESCRIPTION
 .B hsh
-is a minimal UNIX command line interpreter that reads commands from standard input
-and executes them using
+is a minimal UNIX command line interpreter that reads commands from standard input,
+tokenizes them into an argument vector, resolves the executable (using
+.B PATH
+when needed), then executes commands using
 .BR fork (2)
 and
-.BR execve (2).
+.BR execve (2),
+and waits for completion with
+.BR waitpid (2).
 .PP
-In interactive mode,
-.B hsh
-displays the prompt:
-.BR "($) "
-then waits for a command line, executes it, and repeats until EOF or the
-.B exit
-built-in is used.
+Project requirement (subject): unless specified otherwise, the program should produce
+the same output and error output as
+.BR sh (1)
+(/bin/sh). The only difference is that, when printing an error, the program name must
+match
+.I argv[0]
+(as executed).
 .PP
-In non-interactive mode,
-.B hsh
-reads commands from standard input (one command per line) and executes each line.
-This mode is typically used with pipes or redirected input.
-.PP
-This project is intentionally limited and focuses on:
-.IP \[bu] 2
-basic command execution
-.IP \[bu]
-PATH resolution for commands without
-.B /
-.IP \[bu]
-minimal built-ins (see below)
-.PP
-It does not implement advanced shell features such as pipes, separators,
-redirections, quoting, history, aliases, or job control.
-
+This repository implements interactive and non-interactive modes, arguments, PATH resolution,
+and the built-ins
+.BR exit
+and
+.BR env .
+.SH MODES
+.TP
+.B Interactive mode
+When standard input is a TTY, the shell prints the prompt:
+.BR "$ "
+then reads one line, executes it, and repeats.
+.TP
+.B Non-interactive mode
+When standard input is not a TTY, the shell reads commands from standard input without a prompt.
 .SH BUILTINS
-The following built-ins are implemented:
+.TP
+.B exit
+Exit the shell. No argument handling is implemented. The exit status is the stored status of the
+last executed command.
 .TP
 .B env
-Prints the current environment, one variable per line, to standard output.
-.TP
-.B exit
-Exits the shell. The process exits with the status of the last executed command.
-No argument handling is implemented.
-
+Print the current environment, one variable per line, to standard output.
 .SH PATH RESOLUTION
-When executing a command:
-.IP \[bu] 2
-If the command name contains a slash
+If the command contains a slash
 .RB ( / ),
 .B hsh
-does not search
-.BR PATH ;
-it attempts to execute the command exactly as provided.
-.IP \[bu]
-If the command does not contain a slash,
+attempts to execute it as provided (no PATH search).
+Otherwise,
 .B hsh
 searches each directory listed in the
 .B PATH
 environment variable and executes the first match found.
-.IP \[bu]
-Empty entries in
-.B PATH
-(e.g. leading, trailing, or consecutive colons such as
-.BR "::" )
-are treated as the current directory
-.RB ( "." ).
-
-.SH EXIT STATUS
-The shell process exits with the status of the last executed command, similar to
-.BR sh (1).
 .PP
-Typical exit statuses returned for a command execution are:
+If no executable path can be resolved, the shell prints a "not found" error and does not call
+.BR fork (2).
+.SH EXIT STATUS
+The shell returns the status of the last executed command:
 .TP
 .B 0
-Success (command executed and returned 0).
-.TP
-.B 126
-Command found but not executable (permission denied, or a directory).
+Success.
 .TP
 .B 127
-Command not found.
+Command not found (no executable could be resolved).
+.TP
+.B 126
+Execution failed after a path was resolved (child prints an "acces denied" error before exiting).
 .PP
-If a child process is terminated by a signal,
-.B hsh
-returns:
+If the child process is terminated by a signal, the returned status is:
 .BR 128 + signal_number .
-
 .SH ERROR FORMAT
-On errors, messages are printed to standard error using a format similar to
-.BR sh (1):
+On errors, messages are printed to standard error using the program name from
+.I argv[0].
+.PP
+Command not found:
 .PP
 .nf
 <shell_name>: <line_number>: <command>: not found
 .fi
 .PP
-Where:
-.IP \[bu] 2
-.I shell_name
-is the program name (argv[0])
-.IP \[bu]
-.I line_number
-is the current input line number (notably relevant in non-interactive mode)
-
-.SH EXAMPLES
-.PP
-Interactive mode:
+Execution failure after a path is resolved (current message):
 .PP
 .nf
-$ ./hsh
-($) /bin/ls
-($) env
-USER=...
-PATH=...
-($) exit
-$
+<shell_name>: <line_number>: <command>: acces denied
 .fi
-.PP
-Non-interactive mode:
-.PP
-.nf
-$ echo "/bin/ls" | ./hsh
-$ echo "qwerty" | ./hsh
-./hsh: 1: qwerty: not found
-$ echo $?
-127
-.fi
-
+.SH LIMITATIONS
+This shell does not implement advanced features such as pipes, separators, redirections,
+quoting/escaping, globbing, history, aliases, or job control.
 .SH NOTES
-This shell is an educational project developed for the Holberton curriculum.
-It is not intended to be a complete POSIX shell and only guarantees the behavior
-documented in this manual page.
-
+The subject asks for strict /bin/sh parity. The current repository has known differences, including:
+.IP \[bu] 2
+Prompt is
+.B "$ "
+(subject examples show
+.BR "($) " ).
+.IP \[bu]
+The
+.B env
+built-in does not update the stored "last status" in the main loop.
+.IP \[bu]
+A non-executable pathname containing a slash (e.g.
+.BR ./file_without_x )
+is treated as "not found" (127) by path resolution, while /bin/sh typically reports "Permission denied" (126).
 .SH SEE ALSO
 .BR sh (1),
 .BR bash (1),
 .BR fork (2),
 .BR execve (2),
 .BR waitpid (2),
+.BR getline (3),
+.BR access (2),
 .BR stat (2),
 .BR environ (7)
-
 .SH AUTHORS
 See the
 .B AUTHORS
