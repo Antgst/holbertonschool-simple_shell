@@ -15,13 +15,18 @@ char *pathmaker(char **av)
 	char *path = _getenv("PATH");
 	char *spath, *path_copy;
 	char *fullpath = NULL;
-	int saw_eacces = 0;
 
 	if (!av || !av[0])
 		return (NULL);
 
-	if (_strchr(av[0], '/') && stat(av[0], &st) == 0)
+	if (_strchr(av[0], '/'))
+	{
+		if (access(av[0], F_OK) == -1)
+			return (NULL);
+		if (access(av[0], X_OK) == -1)
+			return (NULL);
 		return (_strdup(av[0]));
+	}
 
 	if (path == NULL)
 		return (NULL);
@@ -50,17 +55,11 @@ char *pathmaker(char **av)
 			return (fullpath);
 		}
 
-		if (errno == EACCES)
-			saw_eacces = 1;
-
 		free(fullpath);
 		fullpath = NULL;
 		spath = strtok(NULL, ":");
 	}
 	free(path_copy);
-
-	if (saw_eacces)
-		errno = EACCES;
 
 	return (NULL);
 }
