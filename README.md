@@ -94,7 +94,7 @@ printf "ls -l /tmp\nwhoami\n" | ./hsh
 
 ## 🧭 Flowchart
 
-![Simple Shell Flowchart](docs/flowchart_simple_shell.png)
+![Simple Shell Flowchart](docs/Flowchart_simple_shell.png)
 
 ## 🧨 Errors & exit status (current behavior)
 
