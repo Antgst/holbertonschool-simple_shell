@@ -2,5 +2,4 @@ brouillon/
 tests/
 hsh
 shell
-testskript
-test_sh_path.sh
+*.sh
