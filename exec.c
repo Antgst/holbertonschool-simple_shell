@@ -18,8 +18,8 @@ int exec(char **argv, const char *sname, ssize_t line)
 
 	if (!fullpath)
 	{
-		fprintf(stderr, "%s: %lu: %s: %s\n",
-			sname, line, argv[0], _strerror(errno));
+		fprintf(stderr, "%s: %lu: %s: not found\n",
+			sname, line, argv[0]);
 		return (127);
 
 	}
@@ -35,8 +35,8 @@ int exec(char **argv, const char *sname, ssize_t line)
 	{
 		execve(fullpath, argv, environ);
 
-		fprintf(stderr, "%s: %lu: %s: %s\n",
-			sname, line, argv[0], _strerror(errno));
+		fprintf(stderr, "%s: %lu: %s: acces denied\n",
+			sname, line, argv[0]);
 		free(fullpath);
 		_exit(126);
 	}

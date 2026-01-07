@@ -8,7 +8,6 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
-#include <errno.h>
 
 extern char **environ;
 
@@ -17,7 +16,6 @@ char *_strcpy(char *dest, char *src);
 int _strlen(char *s);
 char *_strdup(char *str);
 char *_strchr(char *s, char c);
-char *_strerror(int err);
 
 int exec(char **argv, const char *shell_name, ssize_t line);
 char **tokenize_line(char *line);
