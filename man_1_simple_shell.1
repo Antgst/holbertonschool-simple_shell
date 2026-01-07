@@ -1,13 +1,17 @@
 .\" Man page for simple_shell (Holberton)
 .TH SIMPLE_SHELL 1 "January 2026" "Holberton School" "User Commands Manual"
+
 .SH NAME
+
 hsh \- minimal UNIX command line interpreter (Holberton Simple Shell)
+
 .SH SYNOPSIS
 .B ./hsh
 .PP
 .BR "echo " \&"command" " | ./hsh"
 .PP
 .BR "cat " file " | ./hsh"
+
 .SH DESCRIPTION
 .B hsh
 is a minimal UNIX command line interpreter that reads commands from standard input,
@@ -33,6 +37,7 @@ and the built-ins
 .BR exit
 and
 .BR env .
+
 .SH MODES
 .TP
 .B Interactive mode
@@ -42,6 +47,7 @@ then reads one line, executes it, and repeats.
 .TP
 .B Non-interactive mode
 When standard input is not a TTY, the shell reads commands from standard input without a prompt.
+
 .SH BUILTINS
 .TP
 .B exit
@@ -63,6 +69,7 @@ environment variable and executes the first match found.
 .PP
 If no executable path can be resolved, the shell prints a "not found" error and does not call
 .BR fork (2).
+
 .SH EXIT STATUS
 The shell returns the status of the last executed command:
 .TP
@@ -77,6 +84,7 @@ Execution failed after a path was resolved (child prints an "acces denied" error
 .PP
 If the child process is terminated by a signal, the returned status is:
 .BR 128 + signal_number .
+
 .SH ERROR FORMAT
 On errors, messages are printed to standard error using the program name from
 .I argv[0].
@@ -92,6 +100,7 @@ Execution failure after a path is resolved (current message):
 .nf
 <shell_name>: <line_number>: <command>: acces denied
 .fi
+
 .SH LIMITATIONS
 This shell does not implement advanced features such as pipes, separators, redirections,
 quoting/escaping, globbing, history, aliases, or job control.
@@ -110,6 +119,7 @@ built-in does not update the stored "last status" in the main loop.
 A non-executable pathname containing a slash (e.g.
 .BR ./file_without_x )
 is treated as "not found" (127) by path resolution, while /bin/sh typically reports "Permission denied" (126).
+
 .SH SEE ALSO
 .BR sh (1),
 .BR bash (1),
@@ -120,6 +130,7 @@ is treated as "not found" (127) by path resolution, while /bin/sh typically repo
 .BR access (2),
 .BR stat (2),
 .BR environ (7)
+
 .SH AUTHORS
 See the
 .B AUTHORS
