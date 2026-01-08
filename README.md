@@ -140,7 +140,7 @@ If you want strict `/bin/sh` parity, these points should be aligned in code.
 | `exec.c` | `fork()` + `execve()` + `waitpid()` + status propagation |
 | `getenv.c` | `_getenv()` helper |
 | `print_env.c` | `env` builtin output |
-| `_strlen.c` `_strcmp.c` `_strcpy.c` `_strdup.c` `_strchr.c` | small string helpers |
+| `string_helpers.c` | small string helpers (`_strlen`, `_strcmp`, `_strcpy`, `_strdup`, `_strchr`) |
 | `shell.h` | prototypes / includes |
 | `man_1_simple_shell` | man page (to be installed / viewed with `man`) |
 | `AUTHORS` | contributors |

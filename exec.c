@@ -30,7 +30,6 @@ int exec(char **argv, const char *sname, ssize_t line)
 		free(fullpath);
 		return (1);
 	}
-
 	if (child_pid == 0)
 	{
 		execve(fullpath, argv, environ);
@@ -40,16 +39,15 @@ int exec(char **argv, const char *sname, ssize_t line)
 		free(fullpath);
 		_exit(126);
 	}
-
 	if (waitpid(child_pid, &status, 0) == -1)
-        return 1;
+		return (1);
 
 	free(fullpath);
 
-    if (WIFEXITED(status))
-        code = WEXITSTATUS(status);
-    else
-        code = 1;
+	if (WIFEXITED(status))
+		code = WEXITSTATUS(status);
+	else
+		code = 1;
 
-    return (code);
+	return (code);
 }
