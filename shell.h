@@ -20,7 +20,7 @@ char *_strchr(char *s, char c);
 int exec(char **argv, const char *shell_name, ssize_t line);
 char **tokenize_line(char *line);
 char *pathmaker(char **av);
-int use_line(char *line, ssize_t line_no, char **av, int last_status);
+int use_line(char *line, int line_no, char **av, int last_status);
 
 char *_getenv(const char *name);
 int print_env(void);
