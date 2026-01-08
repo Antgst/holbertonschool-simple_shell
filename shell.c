@@ -47,7 +47,7 @@ int main(int ac, char **av)
  *
  * Return: Status of the executed command.
  */
-int use_line(char *line, ssize_t line_no, char **av, int last_status)
+int use_line(char *line, int line_no, char **av, int last_status)
 {
 	char **argv;
 
