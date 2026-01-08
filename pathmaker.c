@@ -23,8 +23,6 @@ char *pathmaker(char **av)
 	{
 		if (access(av[0], F_OK) == -1)
 			return (NULL);
-		if (access(av[0], X_OK) == -1)
-			return (NULL);
 		return (_strdup(av[0]));
 	}
 
