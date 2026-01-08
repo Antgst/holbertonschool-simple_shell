@@ -48,8 +48,6 @@ int exec(char **argv, const char *sname, ssize_t line)
 
     if (WIFEXITED(status))
         code = WEXITSTATUS(status);
-    else if (WIFSIGNALED(status))
-        code = 128 + WTERMSIG(status);
     else
         code = 1;
 
