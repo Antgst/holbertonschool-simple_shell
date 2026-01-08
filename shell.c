@@ -12,8 +12,7 @@ int main(int ac, char **av)
 	char *line = NULL;
 	unsigned long int buffer = 0;
 	ssize_t size;
-	ssize_t line_no = 0;
-	int last_status = 0;
+	int last_status = 0, line_no = 0;
 	(void)ac;
 
 	while (1)

@@ -6,7 +6,7 @@
  * @sname: Name of the program.
  * @line: Line number of the command.
  *
- * Return: 0 on success, 1 on failure.
+ * Return: Exit status of the command, or 1 on failure.
  */
 int exec(char **argv, const char *sname, ssize_t line)
 {
