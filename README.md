@@ -108,7 +108,7 @@ Returned status: **127**
 ### `execve()` failure after a path was built/found
 Printed on **stderr** (current message):
 ```text
-<shell_name>: <line_number>: <command>: acces denied
+<shell_name>: <line_number>: <command>: acces failed
 ```
 Returned status: **126**
 
