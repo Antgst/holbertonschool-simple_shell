@@ -11,7 +11,6 @@ _No description detected._
 **Read or watch**:
 
 
-
 - [Unix shell](https://en.wikipedia.org/wiki/Unix_shell)
 
 - [Thompson shell](https://en.wikipedia.org/wiki/Thompson_shell)
@@ -21,9 +20,7 @@ _No description detected._
 - **Everything you need to know to start coding your own shell** concept page
 
 
-
 **man or help**:
-
 
 
 - `sh` (*Run `sh` as well*)
@@ -35,9 +32,7 @@ _No description detected._
 At the end of this project, you are expected to be able to [explain to anyone](https://fs.blog/feynman-learning-technique/), __without the help of Google__:
 
 
-
 ### General
-
 
 
 - Who designed and implemented the original Unix operating system
@@ -75,7 +70,6 @@ At the end of this project, you are expected to be able to [explain to anyone](h
 ### General
 
 
-
 - Allowed editors: `vi`, `vim`, `emacs`
 
 - All your files will be compiled on Ubuntu 20.04 LTS using `gcc`, using the options `-Wall -Werror -Wextra -pedantic -std=gnu89`
@@ -93,7 +87,6 @@ At the end of this project, you are expected to be able to [explain to anyone](h
 - All your header files should be include guarded
 
 - Use system calls only when you need to ([why?](https://www.quora.com/Why-are-system-calls-expensive-in-operating-systems))
-
 
 
 ### GitHub
@@ -146,31 +139,12 @@ GitHub repository:
 holbertonschool-simple_shell
 File:
 README.md, man_1_simple_shell, AUTHORS
-Score of the task
-58.5
-/65
-pts
-90.0%
-0
-correction requests
-QA Review
-×
 0. README, man, AUTHORS
-Commit used:
-User:
 ---
-URL:
-Click here
-ID:
 ---
-Author:
 ---
-Subject:
 ---
-Date:
 ---
-×
-Students who are done with "0. README, man, AUTHORS"
 ```
 
 </details>
@@ -188,43 +162,12 @@ Write a beautiful code that passes the Betty checks
 Repo:
 GitHub repository:
 holbertonschool-simple_shell
-Score of the task
-10
-/10
-pts
-100.0%
-0
-correction requests
-My GitHub
-Connect GitHub
-Connect as:
-Disconnect
-Repository
-Select a repository…
-Folder (optional)
-Run the correction
-Get a sandbox
-QA Review
-×
 1. Betty would be proud
-Commit used:
-User:
 ---
-URL:
-Click here
-ID:
 ---
-Author:
 ---
-Subject:
 ---
-Date:
 ---
-×
-Students who are done with "1. Betty would be proud"
-×
-Recommended Sandboxes
-Loading...
 ```
 
 </details>
@@ -310,43 +253,12 @@ julien@ubuntu:~/shell$
 Repo:
 GitHub repository:
 holbertonschool-simple_shell
-Score of the task
-7
-/7
-pts
-100.0%
-0
-correction requests
-My GitHub
-Connect GitHub
-Connect as:
-Disconnect
-Repository
-Select a repository…
-Folder (optional)
-Run the correction
-Get a sandbox
-QA Review
-×
 2. Simple shell 0.1
-Commit used:
-User:
 ---
-URL:
-Click here
-ID:
 ---
-Author:
 ---
-Subject:
 ---
-Date:
 ---
-×
-Students who are done with "2. Simple shell 0.1"
-×
-Recommended Sandboxes
-Loading...
 ```
 
 </details>
@@ -365,43 +277,12 @@ Handle command lines with arguments
 Repo:
 GitHub repository:
 holbertonschool-simple_shell
-Score of the task
-3
-/3
-pts
-100.0%
-0
-correction requests
-My GitHub
-Connect GitHub
-Connect as:
-Disconnect
-Repository
-Select a repository…
-Folder (optional)
-Run the correction
-Get a sandbox
-QA Review
-×
 3. Simple shell 0.2
-Commit used:
-User:
 ---
-URL:
-Click here
-ID:
 ---
-Author:
 ---
-Subject:
 ---
-Date:
 ---
-×
-Students who are done with "3. Simple shell 0.2"
-×
-Recommended Sandboxes
-Loading...
 ```
 
 </details>
@@ -456,43 +337,12 @@ julien@ubuntu:~/shell$
 Repo:
 GitHub repository:
 holbertonschool-simple_shell
-Score of the task
-30
-/30
-pts
-100.0%
-0
-correction requests
-My GitHub
-Connect GitHub
-Connect as:
-Disconnect
-Repository
-Select a repository…
-Folder (optional)
-Run the correction
-Get a sandbox
-QA Review
-×
 4. Simple shell 0.3
-Commit used:
-User:
 ---
-URL:
-Click here
-ID:
 ---
-Author:
 ---
-Subject:
 ---
-Date:
 ---
-×
-Students who are done with "4. Simple shell 0.3"
-×
-Recommended Sandboxes
-Loading...
 ```
 
 </details>
@@ -517,43 +367,12 @@ exit
 Repo:
 GitHub repository:
 holbertonschool-simple_shell
-Score of the task
-2
-/2
-pts
-100.0%
-0
-correction requests
-My GitHub
-Connect GitHub
-Connect as:
-Disconnect
-Repository
-Select a repository…
-Folder (optional)
-Run the correction
-Get a sandbox
-QA Review
-×
 5. Simple shell 0.4
-Commit used:
-User:
 ---
-URL:
-Click here
-ID:
 ---
-Author:
 ---
-Subject:
 ---
-Date:
 ---
-×
-Students who are done with "5. Simple shell 0.4"
-×
-Recommended Sandboxes
-Loading...
 ```
 
 </details>
@@ -593,43 +412,12 @@ julien@ubuntu:~/shell$
 Repo:
 GitHub repository:
 holbertonschool-simple_shell
-Score of the task
-3
-/3
-pts
-100.0%
-0
-correction requests
-My GitHub
-Connect GitHub
-Connect as:
-Disconnect
-Repository
-Select a repository…
-Folder (optional)
-Run the correction
-Get a sandbox
-QA Review
-×
 6. Simple shell 1.0
-Commit used:
-User:
 ---
-URL:
-Click here
-ID:
 ---
-Author:
 ---
-Subject:
 ---
-Date:
 ---
-×
-Students who are done with "6. Simple shell 1.0"
-×
-Recommended Sandboxes
-Loading...
 ```
 
 </details>
