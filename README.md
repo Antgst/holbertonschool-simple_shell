@@ -1,12 +1,12 @@
-# ðŸ“˜ C - Simple Shell
+# 📘 C - Simple Shell
 
-## ðŸ“Œ Description
+## 📌 Description
 
 _No description detected._
 
 ---
 
-## ðŸ“š Resources
+## 📚 Resources
 
 **Read or watch**:
 
@@ -30,7 +30,7 @@ _No description detected._
 
 ---
 
-## ðŸŽ¯ Learning Objectives
+## 🎯 Learning Objectives
 
 At the end of this project, you are expected to be able to [explain to anyone](https://fs.blog/feynman-learning-technique/), __without the help of Google__:
 
@@ -70,7 +70,7 @@ At the end of this project, you are expected to be able to [explain to anyone](h
 
 ---
 
-## âœ… Requirements
+## ✅ Requirements
 
 ### General
 
@@ -102,20 +102,20 @@ At the end of this project, you are expected to be able to [explain to anyone](h
 
 ---
 
-## âš™ï¸ Setup
+## ⚙️ Setup
 
 _No specific setup detected._
 
 ---
 
-## ðŸ§  Quiz
+## 🧠 Quiz
 
 _No quiz detected in the exported HTML._
 
 
 ---
 
-## ðŸ§© Tasks
+## 🧩 Tasks
 
 <details>
 <summary>0. README, man, AUTHORS</summary>
@@ -154,7 +154,7 @@ pts
 0
 correction requests
 QA Review
-Ã—
+×
 0. README, man, AUTHORS
 Commit used:
 User:
@@ -169,7 +169,7 @@ Subject:
 ---
 Date:
 ---
-Ã—
+×
 Students who are done with "0. README, man, AUTHORS"
 ```
 
@@ -200,12 +200,12 @@ Connect GitHub
 Connect as:
 Disconnect
 Repository
-Select a repositoryâ€¦
+Select a repository…
 Folder (optional)
 Run the correction
 Get a sandbox
 QA Review
-Ã—
+×
 1. Betty would be proud
 Commit used:
 User:
@@ -220,9 +220,9 @@ Subject:
 ---
 Date:
 ---
-Ã—
+×
 Students who are done with "1. Betty would be proud"
-Ã—
+×
 Recommended Sandboxes
 Loading...
 ```
@@ -272,7 +272,7 @@ handle special characters :
 be able to move the cursor
 handle commands with arguments
 execve
-will be the core part of your Shell, don't forget to pass the environ to itâ€¦
+will be the core part of your Shell, don't forget to pass the environ to it…
 julien@ubuntu:~/shell$ ./shell
 #cisfun$ ls
 ./shell: No such file or directory
@@ -322,12 +322,12 @@ Connect GitHub
 Connect as:
 Disconnect
 Repository
-Select a repositoryâ€¦
+Select a repository…
 Folder (optional)
 Run the correction
 Get a sandbox
 QA Review
-Ã—
+×
 2. Simple shell 0.1
 Commit used:
 User:
@@ -342,9 +342,9 @@ Subject:
 ---
 Date:
 ---
-Ã—
+×
 Students who are done with "2. Simple shell 0.1"
-Ã—
+×
 Recommended Sandboxes
 Loading...
 ```
@@ -377,12 +377,12 @@ Connect GitHub
 Connect as:
 Disconnect
 Repository
-Select a repositoryâ€¦
+Select a repository…
 Folder (optional)
 Run the correction
 Get a sandbox
 QA Review
-Ã—
+×
 3. Simple shell 0.2
 Commit used:
 User:
@@ -397,9 +397,9 @@ Subject:
 ---
 Date:
 ---
-Ã—
+×
 Students who are done with "3. Simple shell 0.2"
-Ã—
+×
 Recommended Sandboxes
 Loading...
 ```
@@ -468,12 +468,12 @@ Connect GitHub
 Connect as:
 Disconnect
 Repository
-Select a repositoryâ€¦
+Select a repository…
 Folder (optional)
 Run the correction
 Get a sandbox
 QA Review
-Ã—
+×
 4. Simple shell 0.3
 Commit used:
 User:
@@ -488,9 +488,9 @@ Subject:
 ---
 Date:
 ---
-Ã—
+×
 Students who are done with "4. Simple shell 0.3"
-Ã—
+×
 Recommended Sandboxes
 Loading...
 ```
@@ -529,12 +529,12 @@ Connect GitHub
 Connect as:
 Disconnect
 Repository
-Select a repositoryâ€¦
+Select a repository…
 Folder (optional)
 Run the correction
 Get a sandbox
 QA Review
-Ã—
+×
 5. Simple shell 0.4
 Commit used:
 User:
@@ -549,9 +549,9 @@ Subject:
 ---
 Date:
 ---
-Ã—
+×
 Students who are done with "5. Simple shell 0.4"
-Ã—
+×
 Recommended Sandboxes
 Loading...
 ```
@@ -605,12 +605,12 @@ Connect GitHub
 Connect as:
 Disconnect
 Repository
-Select a repositoryâ€¦
+Select a repository…
 Folder (optional)
 Run the correction
 Get a sandbox
 QA Review
-Ã—
+×
 6. Simple shell 1.0
 Commit used:
 User:
@@ -625,9 +625,9 @@ Subject:
 ---
 Date:
 ---
-Ã—
+×
 Students who are done with "6. Simple shell 1.0"
-Ã—
+×
 Recommended Sandboxes
 Loading...
 ```
@@ -637,13 +637,13 @@ Loading...
 
 ---
 
-## ðŸ§ª Testing
+## 🧪 Testing
 
 Use the provided task examples and Holberton checker to validate the project.
 
 ---
 
-## ðŸ‘¤ Author
+## 👤 Author
 
 Project from Holberton School.
 
